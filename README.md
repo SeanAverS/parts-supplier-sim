@@ -1,1 +1,1 @@
-# A tool to scrape product data and simulate  supplier changes
+# In Progess: A tool to scrape product data and simulate  supplier changes
