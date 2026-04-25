@@ -11,6 +11,7 @@ const VehicleDropdown = () => {
   const [partCount, setPartCount] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [inStockToggle, setInStockToggle] = useState(false);
+  const [searchBar, setSearchBar] = useState('');
 
   // match fitments(fitment_data) with parts (queue) 
   // resets data on new selection
@@ -100,13 +101,18 @@ useEffect(() => {
   }
 }, [selection.year, selection.make, selection.model, selection.trim, selection]);
 
-// count fitments based on toggle state
+// count fitments based on toggle and search bar state 
 const stockCount = results.filter(product => {
-  if (inStockToggle) { // in stock fitments
-    return product.stock > 0;
-  } else { // all fitments 
-    return true;
+  // toggle count
+  let matchesStock = true;
+  if (inStockToggle) {
+    matchesStock = product.stock > 0;
   }
+
+  // search bar count 
+  const matchesSearch = product.displayTitle.toLowerCase().includes(searchBar.toLowerCase());
+
+  return matchesStock && matchesSearch;
 });
 
   // Dropdowns and List output
@@ -201,6 +207,20 @@ const stockCount = results.filter(product => {
                     </label>
                   </div>
 
+                  {/* Search Bar: shows once dropdowns selected */}
+                  {selection.year && selection.make && selection.model && (
+                    <div className="mb-4">
+                      <input
+                        type="text"
+                        placeholder="Search Compatible Parts..."
+                         className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md border"
+                        value={searchBar}
+                        onChange={(e) => setSearchBar(e.target.value)}
+                      />
+                    </div>
+                  )}
+
+                  {/* List */}
                   {stockCount
                     .map((product) => (
                       <div key={product._id} className="p-3 bg-white border border-gray-200 rounded shadow-sm">
