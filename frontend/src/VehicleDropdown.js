@@ -118,7 +118,7 @@ const stockCount = results.filter(product => {
   // Dropdowns and List output
   return (
     <div className="p-8 w-[500px] mx-auto bg-white rounded-xl shadow-md space-y-4 border border-gray-200">
-      <h2 className="text-xl font-bold text-gray-800">Vehicle Parts Finder</h2>
+      <h2 className="text-xl font-bold text-gray-800 text-center">Vehicle Parts Finder</h2>
 
      {/* Year Dropdown */}
       <div>
