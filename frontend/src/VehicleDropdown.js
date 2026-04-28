@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const VehicleDropdown = () => {
   // dropdown states
@@ -12,10 +12,16 @@ const VehicleDropdown = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [inStockToggle, setInStockToggle] = useState(false);
   const [searchBar, setSearchBar] = useState('');
+  const [showScrollButton, setShowScrollButton] = useState(false);
+  const listTopRef = useRef(null);
 
   // match fitments(fitment_data) with parts (queue) 
   // resets data on new selection
   const [results, setResults] = useState([]); 
+ 
+  const scrollToTopOfList = () => {
+    listTopRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   // initial load 
   useEffect(() => {
@@ -23,6 +29,20 @@ const VehicleDropdown = () => {
       .then(res => res.json())
       .then(data => setYears(data))
       .catch(err => console.error("Error fetching years:", err));
+  }, []);
+
+  // handle top of list button appearance
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 800) {
+        setShowScrollButton(true);
+      } else {
+        setShowScrollButton(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // get years 
@@ -176,7 +196,7 @@ const stockCount = results.filter(product => {
       </div>
 
       {/* List Output */}
-      <div className="mt-8 border-t border-[#33373f] pt-6 min-h-[300px]">
+      <div ref={listTopRef} className="mt-8 border-t border-[#33373f] pt-6 min-h-[300px]">
         {isLoading ? (
           /* Loading Spinner */
           <div className="flex flex-col items-center justify-center py-10">
@@ -273,6 +293,25 @@ const stockCount = results.filter(product => {
           </>
         )}
       </div>
+
+      {/* Jump to Top Of List Button */}
+      {showScrollButton && (
+        <button
+          onClick={scrollToTopOfList}
+          className="fixed bottom-8 right-8 p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-500 transition-all z-50 flex items-center justify-center group"
+          title="Jump to Top"
+        >
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            className="h-6 w-6" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+          </svg>
+        </button>
+      )}
     </div>
   );
 };
