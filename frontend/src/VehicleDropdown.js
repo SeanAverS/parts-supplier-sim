@@ -136,7 +136,16 @@ const stockCount = results.filter(product => {
 });
 
   // Reusable input style
-  const inputClass = "mt-1 block w-full pl-3 pr-10 py-2 text-base bg-[#24272e] border-[#33373f] text-[#e1e4e8] focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm rounded-md border transition-all";
+  const inputClass = "mt-1 block w-full pl-3 pr-12 py-2 text-base bg-[#24272e] border-[#33373f] text-[#e1e4e8] focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm rounded-md border transition-all appearance-none cursor-pointer";
+
+  // Reusable arrow style 
+  const arrowWrapper = (
+  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-[#959da5]">
+    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </div>
+);
 
   // Dropdowns and List output
   return (
@@ -146,53 +155,73 @@ const stockCount = results.filter(product => {
      {/* Year Dropdown */}
       <div>
         <label className="block text-sm font-medium text-[#959da5]">Year</label>
-        <select
-          value={selection.year} 
-          className={inputClass}
-          onChange={(e) => setSelection({ ...selection, year: e.target.value })}
-        >
-          <option value="" className="bg-[#24272e]">Select Year</option>
-          {years.map(y => <option key={y} value={y} className="bg-[#24272e]">{y}</option>)}
-        </select>
+
+        <div className="relative">
+          <select
+            value={selection.year}
+            className={inputClass}
+            onChange={(e) => setSelection({ ...selection, year: e.target.value })}
+          >
+            <option value="" className="bg-[#24272e]">Select Year</option>
+            {years.map(y => <option key={y} value={y} className="bg-[#24272e]">{y}</option>)}
+          </select>
+
+          {arrowWrapper}
+        </div>
       </div>
 
       {/* Make Dropdown */}
       <div className={!selection.year ? "opacity-50 pointer-events-none" : ""}>
         <label className="block text-sm font-medium text-[#959da5]">Make</label>
-        <select
-          value={selection.make} 
-          className={inputClass}
-          onChange={(e) => setSelection({ ...selection, make: e.target.value })}
-        >
-          <option value="" className="bg-[#24272e]">Select Make</option>
-          {makes.map(m => <option key={m} value={m} className="bg-[#24272e]">{m}</option>)}
-        </select>
+
+        <div className="relative">
+          <select
+            value={selection.make}
+            className={inputClass}
+            onChange={(e) => setSelection({ ...selection, make: e.target.value })}
+          >
+            <option value="" className="bg-[#24272e]">Select Make</option>
+            {makes.map(m => <option key={m} value={m} className="bg-[#24272e]">{m}</option>)}
+          </select>
+
+          {arrowWrapper}
+        </div>
       </div>
 
       {/* Model Dropdown */}
       <div className={!selection.make ? "opacity-50 pointer-events-none" : ""}>
         <label className="block text-sm font-medium text-[#959da5]">Model</label>
-        <select
-          value={selection.model}
-          className={inputClass}
-          onChange={(e) => setSelection({ ...selection, model: e.target.value })}
-        >
-          <option value="" className="bg-[#24272e]">Select Model</option>
-          {models.map(mod => <option key={mod} value={mod} className="bg-[#24272e]">{mod}</option>)}
-        </select>
+
+        <div className="relative">
+          <select
+            value={selection.model}
+            className={inputClass}
+            onChange={(e) => setSelection({ ...selection, model: e.target.value })}
+          >
+            <option value="" className="bg-[#24272e]">Select Model</option>
+            {models.map(mod => <option key={mod} value={mod} className="bg-[#24272e]">{mod}</option>)}
+          </select>
+        
+          {arrowWrapper}
+        </div>
       </div>
 
       {/* Trim Dropdown */}
       <div className={!selection.model ? "opacity-50 pointer-events-none" : ""}>
         <label className="block text-sm font-medium text-[#959da5]">Trim (Optional)</label>
-        <select
-          value={selection.trim}
-          className={inputClass}
-          onChange={(e) => setSelection({ ...selection, trim: e.target.value })}
-        >
-          <option value="" className="bg-[#24272e]">All Trims</option>
-          {trims.map(t => <option key={t} value={t} className="bg-[#24272e]">{t}</option>)}
-        </select>
+
+        <div className="relative">
+          <select
+            value={selection.trim}
+            className={inputClass}
+            onChange={(e) => setSelection({ ...selection, trim: e.target.value })}
+          >
+            <option value="" className="bg-[#24272e]">All Trims</option>
+            {trims.map(t => <option key={t} value={t} className="bg-[#24272e]">{t}</option>)}
+          </select>
+
+          {arrowWrapper}
+        </div>
       </div>
 
       {/* List Output */}
