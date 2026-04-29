@@ -2,7 +2,7 @@
 
 A car parts search tool featuring a simulation of live supplier price and stock updates.
 
-![Demo of App Interaction](videos/app_demo.mp4)
+![Demo of App Interaction](videos/app_demo.gif)
 
 ---
 
@@ -14,7 +14,7 @@ A car parts search tool featuring a simulation of live supplier price and stock 
 * [Testing the Simulation](#testing-the-supplier-simulation)
 
 ---
-
+ 
 ## Installation
 1.  **Clone the repository:**
     ```bash
