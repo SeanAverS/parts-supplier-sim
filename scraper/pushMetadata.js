@@ -55,6 +55,7 @@ async function runScaleTest() {
                     // clean messy metadata  
                     const cleanFitmentList = parseFitmentTags(product.tags);
 
+                    // Payload: prepare data for MongoDB 
                     // combine clean metadata with site metadata 
                     const enrichedFitments = cleanFitmentList.map(item => ({ // site metadata 
                         ...item,
