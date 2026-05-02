@@ -57,9 +57,10 @@ async function runScaleTest() {
 
                     // Payload: prepare data for MongoDB 
                     // combine clean metadata with site metadata 
-                    const enrichedFitments = cleanFitmentList.map(item => ({ // site metadata 
-                        ...item,
-                        productId: product.id, 
+                    const enrichedFitments = cleanFitmentList.map(item => ({
+                        ...item, // cleaned fitment data 
+                        productId: product.id, // shopify site metadata 
+                        // stitch: combine data 
                         handle: handle,
                         sku: product.variants[0]?.sku || 'MISSING_SKU'
                     }));
