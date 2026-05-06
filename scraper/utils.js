@@ -61,6 +61,7 @@ function parseFitmentTags(tagString) {
 
 
 // 2nd section: functions that deal with unique supplier formatting 
+// Webhook: failsafe for common form inputs and proper logs for when supplier format doesn't match failsafe inputs 
 
 // end 2nd section 
 
