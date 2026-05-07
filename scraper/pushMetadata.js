@@ -1,5 +1,4 @@
 // step 3: push clean metadata to MongoDB
-// dont forget when testing to change part status to "pending"
 
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
