@@ -9,7 +9,7 @@ const pLimit = require('p-limit').default || require('p-limit');
 
 const uri = process.env.ATLAS_URI;
 const client = new MongoClient(uri);
-// worker limit, control laptop load
+// worker limit: control laptop load and stay within Shopify API limit
 const limit = pLimit(SCRAPER_CONFIG.CONCURRENCY);
 
 const headers = {
@@ -27,7 +27,7 @@ async function runScaleTest() {
         const fitmentStore = db.collection('fitment_data');
 
         // fetch parts not processed yet 
-        // limit to 50 per batch to save RAM
+        // limit to 50 per batch to save RAM and stay within Shopify API limit 
         const tasks = await queue.find({ status: "pending" }).limit(SCRAPER_CONFIG.BATCH_SIZE).toArray();
 
         if (tasks.length === 0) {
