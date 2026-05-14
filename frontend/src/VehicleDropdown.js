@@ -25,11 +25,19 @@ const VehicleDropdown = () => {
 
   // initial load 
   useEffect(() => {
-    fetch('http://localhost:5050/api/years')
-      .then(res => res.json())
-      .then(data => setYears(data))
-      .catch(err => console.error("Error fetching years:", err));
-  }, []);
+  fetch('http://localhost:5050/api/years')
+    .then(res => res.json())
+    .then(data => {
+      setYears(data);
+      
+      // track time user views page  
+      console.log("Event: ViewContent", {
+        page_title: "Vehicle Parts Finder",
+        timestamp: new Date().toISOString()
+      });
+    })
+    .catch(err => console.error("Error fetching years:", err));
+}, []);
 
   // handle top of list button appearance
   useEffect(() => {
@@ -196,7 +204,21 @@ const stockCount = results.filter(product => {
           <select
             value={selection.model}
             className={inputClass}
-            onChange={(e) => setSelection({ ...selection, model: e.target.value })}
+            onChange={(e) => {
+              const selectedModel = e.target.value;
+              setSelection({ ...selection, model: selectedModel });
+
+              // track user intent to see all parts
+              if (selectedModel) {
+                console.log("Event: AddToCart(intent)", {
+                  vehicle_year: selection.year,
+                  vehicle_make: selection.make,
+                  vehicle_model: selectedModel,
+                  value: 0.00, 
+                  currency: "CAD"
+                });
+              }
+            }}
           >
             <option value="" className="bg-[#24272e]">Select Model</option>
             {models.map(mod => <option key={mod} value={mod} className="bg-[#24272e]">{mod}</option>)}
@@ -277,6 +299,21 @@ const stockCount = results.filter(product => {
                           target="_blank"
                           rel="noreferrer"
                           className="text-sm font-bold text-[#e1e4e8] hover:underline"
+
+                            onClick={() => {
+                              // track user intent to purchase
+                              console.log("Event: Purchase(intent)", {
+                                transaction_id: `T_${Date.now()}_${product._id}`, // Deduplication 
+                                value: product.price || 0,
+                                currency: "CAD",
+                                items: [{
+                                  item_name: product.displayTitle,
+                                  item_id: product._id,
+                                  price: product.price
+                                }]
+                              });
+                            }}
+
                         >
                           {product.displayTitle}
                         </a>
