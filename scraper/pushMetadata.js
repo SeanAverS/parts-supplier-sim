@@ -27,7 +27,6 @@ async function runScaleTest() {
         const fitmentStore = db.collection('fitment_data');
 
         // fetch parts not processed yet 
-        // limit to 50 per batch to save RAM and stay within Shopify API limit 
         const tasks = await queue.find({ status: "pending" }).limit(SCRAPER_CONFIG.BATCH_SIZE).toArray();
 
         if (tasks.length === 0) {
