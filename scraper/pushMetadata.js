@@ -70,6 +70,8 @@ async function runScaleTest() {
                         console.log(`🚀 Pushed ${enrichedFitments.length} car rows to Cloud Warehouse.`);
                     }
 
+                    // A crash here keeps fitments at "pending", will insert duplicate rows on script re-run 
+
                     // queue: for updating and tracking part status 
                     const sitePrice = parseFloat(product.variants[0]?.price || "0.00");
 
